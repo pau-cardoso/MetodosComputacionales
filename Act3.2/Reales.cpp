@@ -27,7 +27,7 @@ class Reales {
 		void stateG(char);
 		void stateH(char);
 		void stateI(char);
-		void processEntry(string);
+		int processEntry(string);
 };
 
 void Reales :: stateA(char c) {
@@ -74,7 +74,7 @@ void Reales :: stateE(char c) {
 	if ( isdigit(c) ) {
 		state = STATE_F;
 	}
-	else state = -1;
+	else state = -2;
 }
 
 void Reales :: stateF(char c) {
@@ -87,7 +87,7 @@ void Reales :: stateF(char c) {
 	else if (c == 'e') {
 		state = STATE_G;
 	}
-	else state = -1;
+	else state = -2;
 }
 
 void Reales :: stateG(char c) {
@@ -104,7 +104,7 @@ void Reales :: stateH(char c) {
 	if ( isdigit(c) ) {
 		state = STATE_H;
 	}
-	else state = -1;
+	else state = -2;
 }
 
 void Reales :: stateI(char c) {
@@ -114,17 +114,17 @@ void Reales :: stateI(char c) {
 	else state = -1;
 }
 
-void Reales :: processEntry(string str) {
+int Reales :: processEntry(string str) {
 	char c;
 	int i;
 
 	i = 0;
 	state = STATE_A;  
 
-	while ( i < str.length() && state != -1 ) {
+	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
-		cout << "state = " << state << " c = ." << c << " \n";
+		//cout << "state = " << state << " c = ." << c << " \n";
 		switch (state) {
 			case STATE_A: stateA(c); break;
 			case STATE_B: stateB(c); break;
@@ -140,10 +140,12 @@ void Reales :: processEntry(string str) {
 	}
 
 	switch(state) {
-		case -1 : cout << "NOT ACCEPTED\n"; break;
-		case STATE_E : cout << "ACCEPTED\n"; break;
-		case STATE_F : cout << "ACCEPTED\n"; break;
-		case STATE_H : cout << "ACCEPTED\n"; break;
+		//case -1 : 
+		case STATE_E : return i-1; break;
+		case STATE_F : return i-1; break;
+		case STATE_H : return i-1; break;
+		case -2 : return i-2; break;
+		default: return -1; break;
 	}
 }
 
@@ -152,5 +154,5 @@ int main(int argc, char* argv[]) {
 	string input;
 	cout << "Input: ";
 	getline(cin, input);
-	comment.processEntry(input);
+	cout << comment.processEntry(input) << endl;
 }
