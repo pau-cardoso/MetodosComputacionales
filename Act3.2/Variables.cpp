@@ -3,57 +3,61 @@
 
 using namespace std;
 
+const int STATE_A = 0;
+const int STATE_B = 1;
+
 class Variable {
 	private:
 		int state;
 	
 	public:
-		void state0(char);
-		void state1(char);
-		void processEntry(string);
+		void stateA(char);
+		void stateB(char);
+		int processEntry(string);
 };
 
-void Variable :: state0(char c) {
+void Variable :: stateA(char c) {
 	if ( isalpha(c) ) {
-		state = 1;
+		state = STATE_B;
 	}
 	else state = -1;
 }
 
-void Variable :: state1(char c) {
+void Variable :: stateB(char c) {
 	if ( isalpha(c) ) {
-		state = 1;
+		state = STATE_B;
 	}
 	else if ( isdigit(c) ) {
-		state = 1;
+		state = STATE_B;
 	}
     else if (c == '_') {
-        state = 1;
+        state = STATE_B;
     }
-	else state = -1;
+	else state = -2;
 }
 
-void Variable :: processEntry(string str) {
+int Variable :: processEntry(string str) {
 	char c;
 	int i;
 
-	i = 0;
+	i = STATE_A;
 	state = 0;
 
-	while ( i < str.length() && state != -1 ) {
+	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
 		cout << "state = " << state << " c = ." << c << " \n";
 		switch (state) {
-			case 0: state0(c); break;
-			case 1: state1(c); break;
+			case STATE_A: stateA(c); break;
+			case STATE_B: stateB(c); break;
 		}
 		i++;
 	}
 
 	switch(state) {
-		case -1 : cout << "NOT ACCEPTED\n"; break;
-		case 1  : cout << "ACCEPTED\n"; break;
+		case STATE_B  : return i-1; break;
+		case -2 : return i-2; break;
+		default: return -1; break;
 	}
 }
 
@@ -62,5 +66,5 @@ int main(int argc, char* argv[]) {
 	string input;
 	cout << "Input: ";
 	getline(cin, input);
-	comment.processEntry(input);
+	cout << comment.processEntry(input) << endl;
 }

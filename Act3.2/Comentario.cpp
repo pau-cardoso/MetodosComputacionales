@@ -46,7 +46,7 @@ int Comentario :: processEntry(string str) {
 	i = 0;
 	state = STATE_A;
 
-	while ( i < str.length() && state != -1 ) {
+	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
 		cout << "state = " << state << " c = ." << c << " \n";
