@@ -3,63 +3,68 @@
 
 using namespace std;
 
+const int STATE_A = 0;
+const int STATE_B = 1;
+const int STATE_C = 2;
+
 class Entero {
 	private:
 		int state;
 	
 	public:
-		void state0(char);
-		void state1(char);
-		void state2(char);
-		void processEntry(string);
+		void stateA(char);
+		void stateB(char);
+		void stateC(char);
+		int processEntry(string);
 };
 
-void Entero :: state0(char c) {
+void Entero :: stateA(char c) {
 	if (c == '-') {
-		state = 1;
+		state = STATE_B;
 	}
 	else if ( isdigit(c) ) {
-		state = 2;
+		state = STATE_C;
 	}
 	else state = -1;
 }
 
-void Entero :: state1(char c) {
+void Entero :: stateB(char c) {
 	if ( isdigit(c) ) {
-		state = 2;
+		state = STATE_C;
 	}
 	else state = -1;
 }
 
-void Entero :: state2(char c) {
+void Entero :: stateC(char c) {
 	if ( isdigit(c) ) {
-		state = 2;
+		state = STATE_C;
 	}
-	else state = -1;
+	else state = -2;
 }
 
-void Entero :: processEntry(string str) {
+int Entero :: processEntry(string str) {
 	char c;
 	int i;
 
 	i = 0;
 	state = 0;
 
-	while ( i < str.length() && state != -1 ) {
+	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
-		cout << "state = " << state << " c = ." << c << " \n";
+		//cout << "state = " << state << " c = ." << c << " \n";
 		switch (state) {
-			case 0: state0(c); break;
-			case 1: state1(c); break;
-			case 2: state2(c); break;
+			case STATE_A: stateA(c); break;
+			case STATE_B: stateB(c); break;
+			case STATE_C: stateC(c); break;
 		}
 		i++;
 	}
 
 	switch(state) {
-		case -1 : cout << "NOT ACCEPTED\n"; break;
-		case 2  : cout << "ACCEPTED\n"; break;
+		case 2  : return i-1; break;
+		case -2 : return i-2; break;
+		default : return -1; break;
 	}
 }
 
@@ -68,5 +73,5 @@ int main(int argc, char* argv[]) {
 	string input;
 	cout << "Input: ";
 	getline(cin, input);
-	comment.processEntry(input);
+	cout << comment.processEntry(input) << endl;
 }
