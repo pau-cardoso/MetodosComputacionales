@@ -55,8 +55,8 @@ void Comentario :: processEntry(string str) {
 	}
 
 	switch(state) {
-    case -1 : cout << "NOT ACCEPTED\n"; break;
-    case 2  : cout << "ACCEPTED\n"; break;
+		case -1 : cout << "NOT ACCEPTED\n"; break;
+		case 2  : cout << "ACCEPTED\n"; break;
 	}
 }
 
