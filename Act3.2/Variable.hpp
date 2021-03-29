@@ -13,6 +13,7 @@ class Variable {
 	public:
 		void stateA(char);
 		void stateB(char);
+		void stateC(char);
 		int processEntry(string);
 };
 
@@ -25,13 +26,26 @@ void Variable :: stateA(char c) {
 
 void Variable :: stateB(char c) {
 	if ( isalpha(c) ) {
-		state = STATE_B;
+		state = STATE_C;
 	}
 	else if ( isdigit(c) ) {
-		state = STATE_B;
+		state = STATE_C;
 	}
     else if (c == '_') {
-        state = STATE_B;
+        state = STATE_C;
+    }
+	else state = -2;
+}
+
+void Variable :: stateC(char c) {
+	if ( isalpha(c) ) {
+		state = STATE_C;
+	}
+	else if ( isdigit(c) ) {
+		state = STATE_C;
+	}
+    else if (c == '_') {
+        state = STATE_C;
     }
 	else state = -2;
 }
@@ -50,23 +64,17 @@ int Variable :: processEntry(string str) {
 		switch (state) {
 			case STATE_A: stateA(c); break;
 			case STATE_B: stateB(c); break;
+			case STATE_C: stateC(c); break;
 		}
 		i++;
 	}
 
 	switch(state) {
 		case STATE_B  : return i-1; break;
+		case STATE_C  : return i-1; break;
 		case -2 : return i-2; break;
 		default: return -1; break;
 	}
 }
 
 #endif
-
-// int main(int argc, char* argv[]) {
-// 	Variable comment;
-// 	string input;
-// 	cout << "Input: ";
-// 	getline(cin, input);
-// 	cout << comment.processEntry(input) << endl;
-// }

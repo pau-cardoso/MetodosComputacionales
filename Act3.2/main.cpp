@@ -16,7 +16,6 @@ const int STATE_I = 8;
 #include "Entero.hpp"
 #include "Reales.hpp"
 #include "Variable.hpp"
-#include "Operador.hpp"
 
 using namespace std;
 
@@ -28,10 +27,11 @@ void lexerAritmetico(string archivo) {
 	Entero entero;
 	Reales real;
 	Variable variable;
-	Operador operador;
 
 	ifstream file;
 	file.open(archivo);
+	cout << "\nToken\t\t\t\t\t\tTipo" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
 
 	while (getline(file, str, '\n')) {
 		for (int i = 0; i < str.length(); i++) {
@@ -74,9 +74,15 @@ void lexerAritmetico(string archivo) {
 			else if ( c == '-' && str[i+1]==' ' ) {
 				cout << c << "\t\t\t\t\t\tResta" << endl;
 			}
+			else if ( c == '(' ) {
+				cout << c << "\t\t\t\t\t\tParéntesis que abre" << endl;
+			}
+			else if ( c == ')' ) {
+				cout << c << "\t\t\t\t\t\tParéntesis que cierra" << endl;
+			}
 			else continue;
 			
-			cout << "-----------------------------------------------" << endl;
+			cout << "------------------------------------------------------------------------" << endl;
 		}
 		
 	}	

@@ -65,11 +65,3 @@ int Comentario :: processEntry(string str) {
 }
 
 #endif
-
-// int main(int argc, char* argv[]) {
-// 	Comentario comment;
-// 	string input;
-// 	cout << "Input: ";
-// 	getline(cin, input);
-// 	cout << comment.processEntry(input) << endl;
-// }

@@ -68,11 +68,3 @@ int Entero :: processEntry(string str) {
 }
 
 #endif
-
-// int main(int argc, char* argv[]) {
-// 	Entero comment;
-// 	string input;
-// 	cout << "Input: ";
-// 	getline(cin, input);
-// 	cout << comment.processEntry(input) << endl;
-// }

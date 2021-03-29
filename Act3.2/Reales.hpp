@@ -143,11 +143,3 @@ int Reales :: processEntry(string str) {
 }
 
 #endif
-
-// int main(int argc, char* argv[]) {
-// 	Reales comment;
-// 	string input;
-// 	cout << "Input: ";
-// 	getline(cin, input);
-// 	cout << comment.processEntry(input) << endl;
-// }
