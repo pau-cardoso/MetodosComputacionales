@@ -41,8 +41,20 @@ void lexerAritmetico(string archivo) {
 				continue;
 			}
 			else if (comentario.processEntry(substring) != -1) {
-				cout << str << "\t\t\t\t\t\tComentario" << endl;
-				str = str.substr(comentario.processEntry(str));
+				cout << substring << "\t\t\tComentario" << endl;
+				i += comentario.processEntry(substring);
+			}
+			else if (variable.processEntry(substring) != -1) {
+				cout << substring.substr(0, variable.processEntry(substring)+1) << "\t\t\t\t\t\tVariable" << endl;
+				i += variable.processEntry(substring);
+			}
+			else if (real.processEntry(substring) != -1) {
+				cout << substring.substr(0, real.processEntry(substring)+1) << "\t\t\t\t\t\tReal" << endl;
+				i += real.processEntry(substring);
+			}
+			else if (entero.processEntry(substring) != -1) {
+				cout << substring.substr(0, entero.processEntry(substring)+1) << "\t\t\t\t\t\tEntero" << endl;
+				i += entero.processEntry(substring);
 			}
 			else if (c == '=') {
 				cout << c << "\t\t\t\t\t\tAsignacion" << endl;
@@ -62,6 +74,8 @@ void lexerAritmetico(string archivo) {
 			else if ( c == '-' && str[i+1]==' ' ) {
 				cout << c << "\t\t\t\t\t\tResta" << endl;
 			}
+			else continue;
+			
 			cout << "-----------------------------------------------" << endl;
 		}
 		

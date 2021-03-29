@@ -46,7 +46,7 @@ int Variable :: processEntry(string str) {
 	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
-		cout << "state = " << state << " c = ." << c << " \n";
+		//cout << "state = " << state << " c = ." << c << " \n";
 		switch (state) {
 			case STATE_A: stateA(c); break;
 			case STATE_B: stateB(c); break;
