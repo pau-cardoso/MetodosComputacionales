@@ -1,11 +1,10 @@
+#ifndef ENTERO_H
+#define ENTERO_H
+
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-const int STATE_A = 0;
-const int STATE_B = 1;
-const int STATE_C = 2;
 
 class Entero {
 	private:
@@ -47,7 +46,7 @@ int Entero :: processEntry(string str) {
 	int i;
 
 	i = 0;
-	state = 0;
+	state = STATE_A;
 
 	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
@@ -62,16 +61,18 @@ int Entero :: processEntry(string str) {
 	}
 
 	switch(state) {
-		case 2  : return i-1; break;
+		case STATE_C  : return i-1; break;
 		case -2 : return i-2; break;
 		default : return -1; break;
 	}
 }
 
-int main(int argc, char* argv[]) {
-	Entero comment;
-	string input;
-	cout << "Input: ";
-	getline(cin, input);
-	cout << comment.processEntry(input) << endl;
-}
+#endif
+
+// int main(int argc, char* argv[]) {
+// 	Entero comment;
+// 	string input;
+// 	cout << "Input: ";
+// 	getline(cin, input);
+// 	cout << comment.processEntry(input) << endl;
+// }

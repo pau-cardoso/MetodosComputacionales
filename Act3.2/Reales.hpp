@@ -1,17 +1,10 @@
+#ifndef REALES_H
+#define REALES_H
+
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-const int STATE_A = 0;
-const int STATE_B = 1;
-const int STATE_C = 2;
-const int STATE_D = 3;
-const int STATE_E = 4;
-const int STATE_F = 5;
-const int STATE_G = 6;
-const int STATE_H = 7;
-const int STATE_I = 8;
 
 class Reales {
 	private:
@@ -149,10 +142,12 @@ int Reales :: processEntry(string str) {
 	}
 }
 
-int main(int argc, char* argv[]) {
-	Reales comment;
-	string input;
-	cout << "Input: ";
-	getline(cin, input);
-	cout << comment.processEntry(input) << endl;
-}
+#endif
+
+// int main(int argc, char* argv[]) {
+// 	Reales comment;
+// 	string input;
+// 	cout << "Input: ";
+// 	getline(cin, input);
+// 	cout << comment.processEntry(input) << endl;
+// }

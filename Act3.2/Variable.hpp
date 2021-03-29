@@ -1,10 +1,10 @@
+#ifndef VARIABLE_H
+#define VARIABLE_H
+
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-const int STATE_A = 0;
-const int STATE_B = 1;
 
 class Variable {
 	private:
@@ -61,10 +61,12 @@ int Variable :: processEntry(string str) {
 	}
 }
 
-int main(int argc, char* argv[]) {
-	Variable comment;
-	string input;
-	cout << "Input: ";
-	getline(cin, input);
-	cout << comment.processEntry(input) << endl;
-}
+#endif
+
+// int main(int argc, char* argv[]) {
+// 	Variable comment;
+// 	string input;
+// 	cout << "Input: ";
+// 	getline(cin, input);
+// 	cout << comment.processEntry(input) << endl;
+// }

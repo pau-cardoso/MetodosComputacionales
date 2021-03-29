@@ -1,11 +1,10 @@
+#ifndef COMENTARIO_H
+#define COMENTARIO_H
+
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-const int STATE_A = 0;
-const int STATE_B = 1;
-const int STATE_C = 2;
 
 class Comentario {
 	private:
@@ -49,7 +48,7 @@ int Comentario :: processEntry(string str) {
 	while ( i < str.length() && state != -1 && state != -2 ) {
 		c = str[i];
 		if (c=='\n') break;
-		cout << "state = " << state << " c = ." << c << " \n";
+		//cout << "state = " << state << " c = ." << c << " \n";
 		switch (state) {
 			case STATE_A: stateA(c); break;
 			case STATE_B: stateB(c); break;
@@ -65,10 +64,12 @@ int Comentario :: processEntry(string str) {
 	}
 }
 
-int main(int argc, char* argv[]) {
-	Comentario comment;
-	string input;
-	cout << "Input: ";
-	getline(cin, input);
-	cout << comment.processEntry(input) << endl;
-}
+#endif
+
+// int main(int argc, char* argv[]) {
+// 	Comentario comment;
+// 	string input;
+// 	cout << "Input: ";
+// 	getline(cin, input);
+// 	cout << comment.processEntry(input) << endl;
+// }
