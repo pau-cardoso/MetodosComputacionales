@@ -24,7 +24,7 @@ void lexerAritmetico(string archivo) {
 	string str;
 	string substring;
 	Comentario comentario;
-	Entero entero;
+	Entero entero; 
 	Reales real;
 	Variable variable;
 
