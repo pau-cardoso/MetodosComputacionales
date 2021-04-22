@@ -1,0 +1,47 @@
+#lang racket
+
+(require 2htdp/batch-io)
+
+;; Lectura del archivo
+(define code
+  (string->list (read-file "D:\\Repositories\\MetodosComputacionales\\Act3.4")))
+
+;; Escritura del archivo
+(define copy
+  (lambda (source destination)
+    (write-file destination (read-file source))))
+
+
+;; Comentario
+(define (commentA lst) 
+  (cond 
+    [(= (car lst) #\/) (commentB lst cdr)]
+    [else .1]))
+
+
+(define lstPop
+  (lambda (lst quantity)
+    (if (> quantity 0) (lstPop (cdr lst) (- quantity 1)) lst)))
+
+(define sublst
+  (lambda (lst newlst quantity)
+    (if (> quantity 0) (sublst (cdr lst) (append newlst (list (car lst))) (- quantity 1)) newlst)))
+
+(define appendHTML
+  (lambda (openTag quantity lst html)
+    (string-append html (string-append openTag (string-append (list->string(sublst lst '() quantity)) "</span>")))))
+
+(define lexicalAnalyzer
+  (lambda (lst html)
+    (if (empty? lst) html
+        (cond
+          [(not (equal? (identifierA lst 0) 0)) (lexicalAnalyzer (lstPop lst (identifierA lst 0)) (appendHTML "<span class='identifier'>" (identifierA lst 0) lst html))]
+          [(not (equal? (floatA lst 0) 0)) (lexicalAnalyzer (lstPop lst (floatA lst 0)) (appendHTML "<span class='float'>" (floatA lst 0) lst html))]
+          [(not (equal? (intA lst 0) 0)) (lexicalAnalyzer (lstPop lst (intA lst 0)) (appendHTML "<span class='int'>" (intA lst 0) lst html))]
+          
+          [else (lexicalAnalyzer (cdr lst) html)]
+         )
+    )))
+
+
+;;(lexicalAnalyzer lst "")
