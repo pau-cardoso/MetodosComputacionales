@@ -1,11 +1,21 @@
 body {
+    padding: 2rem 2rem;
     background-color: #0a0e14;
+    font-family: Consolas, "Courier New", monospace;
+    font-weight: normal;
+    font-size: 1.3rem;
+    line-height: 1.5;
 }
 
 .palabra-reservada {
-    color: #51c7da
+    color: #51c7da;
 }
 
 .comentario {
-    color: #494c4d
+    color: #494c4d;
+    font-style: italic;
+}
+
+.otro {
+    color: #c3e88d;
 }
