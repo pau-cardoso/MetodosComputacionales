@@ -3,8 +3,9 @@ body {
     background-color: #0a0e14;
     font-family: Consolas, "Courier New", monospace;
     font-weight: normal;
-    font-size: 1.3rem;
+    font-size: 1rem;
     line-height: 1.5;
+    color: white;
 }
 
 .palabra-reservada {
@@ -16,6 +17,18 @@ body {
     font-style: italic;
 }
 
-.otro {
-    color: #c3e88d;
+.string {
+    color: #c3e886;
+}
+
+.variable {
+    color: #ea8c6c;
+}
+
+.operadores-logicos {
+    color: #7ba8fe;
+}
+
+.operadores {
+    color: #b48ae5;
 }
