@@ -5,159 +5,76 @@
 
 (require 2htdp/batch-io)
 
+
+;; Input del usuario para saber el lenguaje del programa
+(display "Introduce el lenguaje de tu programa como 'cpp' para C++ o 'py' para Python: ")
+(define programa (read-line))
+
+;; Input del usuario para saber la ruta del programa a leer
+(display "Introduce la ruta del archivo código a leer en formato 'D:\\Descargas\\Codigos\\codigo.cpp' ")
+(define archivo (read-line))
+
+
 ;; Lectura del archivo
 (define code
-  (string->list (read-file "D:\\Repositories\\MetodosComputacionales\\Act3.4\\test.py")))
+  (string->list (read-file archivo)))
 
-;; Escritura del archivo
-; (write-file "prueba.html" fileHTML)
-; copy ((syntaxisHighlighter code "") index.html)
+; D:\\Repositories\\MetodosComputacionales\\Act3.4\\test.py
+; D:\\Repositories\\MetodosComputacionales\\Act3.2\\main.cpp
+
 
 ;; Palabras reservadas
+(define pythonPR
+  (set "or" "while" "continue" "exec" "import" "yield" "def" "finally" "in" "print" "and" "del" "for" "is" "raise" "assert" "if" "else" "elif" "from" "lambda" "return" "break" "global" "not" "try" "class" "except"))
 
-; int 
-(define (intPRA code index)
+(define cplusplusPR
+  (set "asm" "auto" "bool" "break" "case" "catch" "char" "class" "const" "const_cast" "continue" "default" "delete" "do" "double" "dynamic_cast" "else" "enum" "explicit" "extern" "false" "float" "for" "friend" "goto" "if" "inline" "int" "long" "mutable" "namespace" "new" "operator" "private" "protected" "public" "register" "reinterpret_cast" "return" "short" "signed" "sizeof" "static" "static_cast" "struct" "switch" "template" "this" "throw" "true" "try" "typedef" "typeid" "typename" "union" "unsigned" "using" "virtual" "void" "volatile" "while"))
+
+(define (pyPR palabra lst index)
   (cond
-    [(equal? (car code) #\i) (intPRB (cdr code) (+ index 1))]
-    [else -1]))
+    [(empty? lst) index]
+    [(char-alphabetic? (car lst))(pyPR (string-append palabra (string (car lst))) (cdr lst) (+ 1 index))]
+    [(set-member? pythonPR palabra) index]
+    [else 0]))
 
-(define (intPRB code index)
+(define (cppPR palabra lst index)
   (cond
-    [(equal? (car code) #\n) (intPRC (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (intPRC code index)
-  (cond
-    [(equal? (car code) #\t) (intPRD (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (intPRD code index)
-  (cond
-    [(empty? code) index]
-    [(equal? (car code) #\space) index]
-    [else -1]))
-
-
-; in
-(define (inPRA code index)
-  (cond
-    [(equal? (car code) #\i) (intPRB (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (inPRB code index)
-  (cond
-    [(equal? (car code) #\n) (+ index 1)]
-    [else -1]))
-
-
-; for
-(define (forPRA code index)
-  (cond
-    [(equal? (car code) #\f) (forPRB (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (forPRB code index)
-  (cond
-    [(equal? (car code) #\o) (forPRC (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (forPRC code index)
-  (cond
-    [(equal? (car code) #\r) (+ index 1)]
-    [else -1]))
-
-; return
-(define (returnPRA code index)
-  (cond
-    [(equal? (car code) #\r) (returnPRB (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (returnPRB code index)
-  (cond
-    [(equal? (car code) #\e) (returnPRC (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (returnPRC code index)
-  (cond
-    [(equal? (car code) #\t) (returnPRD (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (returnPRD code index)
-  (cond
-    [(equal? (car code) #\u) (returnPRE (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (returnPRE code index)
-  (cond
-    [(equal? (car code) #\r) (returnPRF (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (returnPRF code index)
-  (cond
-    [(equal? (car code) #\n) (+ index 1)]
-    [else -1]))
-
-
-; char
-(define (charPRA code index)
-  (cond
-    [(equal? (car code) #\c) (charPRB (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (charPRB code index)
-  (cond
-    [(equal? (car code) #\h) (charPRC (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (charPRC code index)
-  (cond
-    [(equal? (car code) #\a) (charPRD (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (charPRD code index)
-  (cond
-    [(empty? code) index]
-    [(equal? (car code) #\r) (+ index 1)]
-    [else -1]))
-
-
-;; Funcion que regresa la posicion donde llega la palabra reservada
-(define (palabraReservada code index)
-  (cond
-    [(empty? code) index]
-    ; int
-    [(> (intPRA code 0) 0) (intPRA code 0)]
-    ; in
-    [(> (inPRA code 0) 0) (inPRA code 0)]
-    ; for
-    [(> (forPRA code 0) 0) (forPRA code 0)]
-    ; char
-    [(> (charPRA code 0) 0) (charPRA code 0)]
-    ; return
-    [(> (returnPRA code 0) 0) (returnPRA code 0)]
-    ; Strings
-    ;[(> (intPRA code 0) 0) (intPRA code 0)]
-    ; Variables
-    ;[(> (intPRA code 0) 0) (intPRA code 0)]
-    [else -1]))
+    [(empty? lst) index]
+    [(char-alphabetic? (car lst))(cppPR (string-append palabra (string (car lst))) (cdr lst) (+ 1 index))]
+    [(set-member? cplusplusPR palabra) index]
+    [else 0]))
 
 
 
-;; Comentario
-(define (commentA code index) 
+;; Comentario para Python
+(define (pyCommentA code index) 
   (cond 
-    [(equal? (car code) #\#) (commentC (cdr code) (+ index 1))]
+    [(equal? (car code) #\#) (pyCommentB (cdr code) (+ index 1))]
     [else -1]))
 
-(define (commentB code index) 
-  (cond 
-    [(equal? (car code) #\/) (commentC (cdr code) (+ index 1))]
-    [else -1]))
-
-(define (commentC code index) 
+(define (pyCommentB code index) 
   (cond
     [(empty? code) index]
-    [(not (equal? (car code) #\newline)) (commentC (cdr code) (+ index 1))]
+    [(not (equal? (car code) #\newline)) (pyCommentB (cdr code) (+ index 1))]
+    [else index]))
+
+
+
+;; Comentario para C++
+(define (cppCommentA code index) 
+  (cond 
+    [(equal? (car code) #\/) (cppCommentB (cdr code) (+ index 1))]
+    [else -1]))
+
+(define (cppCommentB code index) 
+  (cond 
+    [(equal? (car code) #\/) (cppCommentC (cdr code) (+ index 1))]
+    [else -1]))
+
+(define (cppCommentC code index) 
+  (cond
+    [(empty? code) index]
+    [(not (equal? (car code) #\newline)) (cppCommentC (cdr code) (+ index 1))]
     [else index]))
 
 
@@ -267,12 +184,12 @@
 ;; Strings
 (define (stringA code index)
   (cond
-    [(equal? (car code) #\") (stringB (cdr code) (+ index 1))]
+    [(or (equal? (car code) #\") (equal? (car code) #\')) (stringB (cdr code) (+ index 1))]
     [else -1]))
 
 (define (stringB code index)
   (cond
-    [(equal? (car code) #\") (stringC (cdr code) (+ index 1))]
+    [(or (equal? (car code) #\") (equal? (car code) #\')) (stringC (cdr code) (+ index 1))]
     [(char? (car code)) (stringD (cdr code) (+ index 1))]
     [else -1]))
 
@@ -281,9 +198,10 @@
 
 (define (stringD code index)
   (cond
-    [(equal? (car code) #\") (stringC (cdr code) (+ index 1))]
+    [(or (equal? (car code) #\") (equal? (car code) #\')) (stringC (cdr code) (+ index 1))]
     [(char? (car code)) (stringD (cdr code) (+ index 1))]
     [else -1]))
+
 
 
 
@@ -321,33 +239,66 @@
 
 
 ;; Realiza la escritura del resaltador de sintaxis en un string que se escribira en un archivo
-(define (syntaxisHighlighter code fileHTML)
+(define (cppSyntaxisHighlighter code fileHTML)
   (cond
     [(empty? code) (write-file "prueba.html" fileHTML)]
     ; Espacios
-    [(equal? (car code) #\space) (syntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;"))]
+    [(equal? (car code) #\space) (cppSyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;"))]
     ; Salto de lineas
-    [(equal? (car code) #\newline) (syntaxisHighlighter (cdr code) (string-append fileHTML "<br>"))]
+    [(equal? (car code) #\newline) (cppSyntaxisHighlighter (cdr code) (string-append fileHTML "<br>"))]
     ; Tabs
-    [(equal? (car code) #\tab) (syntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;&nbsp;&nbsp;&nbsp;"))]
+    [(equal? (car code) #\tab) (cppSyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;&nbsp;&nbsp;&nbsp;"))]
     ; Comentarios
-    [(> (commentA code 0) 0) (syntaxisHighlighter (popElement code (commentA code 0)) (string-append fileHTML (writeTag "comentario" (substring code (commentA code 0) '()))))]
+    [(> (cppCommentA code 0) 0) (cppSyntaxisHighlighter (popElement code (cppCommentA code 0)) (string-append fileHTML (writeTag "comentario" (substring code (cppCommentA code 0) '()))))]
     ; Palabras reservadas
-    [(> (palabraReservada code 0) 0) (syntaxisHighlighter (popElement code (palabraReservada code 0)) (string-append fileHTML (writeTag "palabra-reservada" (substring code (palabraReservada code 0) '()))))]
+    [(> (cppPR "" code 0) 0) (cppSyntaxisHighlighter (popElement code (cppPR "" code 0)) (string-append fileHTML (writeTag "palabra-reservada" (substring code (cppPR "" code 0) '()))))]
     ; Strings
-    [(> (stringA code 0) 0) (syntaxisHighlighter (popElement code (stringA code 0)) (string-append fileHTML (writeTag "string" (substring code (stringA code 0) '()))))]
+    [(> (stringA code 0) 0) (cppSyntaxisHighlighter (popElement code (stringA code 0)) (string-append fileHTML (writeTag "string" (substring code (stringA code 0) '()))))]
     ; Variables
-    [(> (variableA code 0) 0) (syntaxisHighlighter (popElement code (variableA code 0)) (string-append fileHTML (writeTag "variable" (substring code (variableA code 0) '()))))]
+    [(> (variableA code 0) 0) (cppSyntaxisHighlighter (popElement code (variableA code 0)) (string-append fileHTML (writeTag "variable" (substring code (variableA code 0) '()))))]
     ; Numeros reales
-    [(> (realesA code 0) 0) (syntaxisHighlighter (popElement code (realesA code 0)) (string-append fileHTML (writeTag "reales" (substring code (realesA code 0) '()))))]
+    [(> (realesA code 0) 0) (cppSyntaxisHighlighter (popElement code (realesA code 0)) (string-append fileHTML (writeTag "reales" (substring code (realesA code 0) '()))))]
     ; Numeros enteros
-    [(> (enteroA code 0) 0) (syntaxisHighlighter (popElement code (enteroA code 0)) (string-append fileHTML (writeTag "enteros" (substring code (enteroA code 0) '()))))]
+    [(> (enteroA code 0) 0) (cppSyntaxisHighlighter (popElement code (enteroA code 0)) (string-append fileHTML (writeTag "enteros" (substring code (enteroA code 0) '()))))]
     ; Operadores de parentesis, corchetes, etc
-    [(or (equal? (car code) #\{) (equal? (car code) #\}) (equal? (car code) #\[) (equal? (car code) #\]) (equal? (car code) #\() (equal? (car code) #\)) ) (syntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores" (string (car code)))))]
+    [(or (equal? (car code) #\{) (equal? (car code) #\}) (equal? (car code) #\[) (equal? (car code) #\]) (equal? (car code) #\() (equal? (car code) #\)) ) (cppSyntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores" (string (car code)))))]
     ; Operadores logicos y puntuacion
-    [(or (equal? (car code) #\=) (equal? (car code) #\+) (equal? (car code) #\*) (equal? (car code) #\/) (equal? (car code) #\^) (equal? (car code) #\-) (equal? (car code) #\;) (equal? (car code) #\:) (equal? (car code) #\<) (equal? (car code) #\>) (equal? (car code) #\#)) (syntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores-logicos" (string (car code)))))]
-    [else (syntaxisHighlighter (cdr code) (string-append fileHTML (string (car code))) )] ))
+    [(or (equal? (car code) #\=) (equal? (car code) #\+) (equal? (car code) #\*) (equal? (car code) #\/) (equal? (car code) #\^) (equal? (car code) #\-) (equal? (car code) #\;) (equal? (car code) #\:) (equal? (car code) #\<) (equal? (car code) #\>) (equal? (car code) #\#)) (cppSyntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores-logicos" (string (car code)))))]
+    [else (cppSyntaxisHighlighter (cdr code) (string-append fileHTML (string (car code))) )] ))
 
+
+(define (pySyntaxisHighlighter code fileHTML)
+  (cond
+    [(empty? code) (write-file "prueba.html" fileHTML)]
+    ; Espacios
+    [(equal? (car code) #\space) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;"))]
+    ; Salto de lineas
+    [(equal? (car code) #\newline) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "<br>"))]
+    ; Tabs
+    [(equal? (car code) #\tab) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;&nbsp;&nbsp;&nbsp;"))]
+    ; Comentarios
+    [(> (pyCommentA code 0) 0) (pySyntaxisHighlighter (popElement code (pyCommentA code 0)) (string-append fileHTML (writeTag "comentario" (substring code (pyCommentA code 0) '()))))]
+    ; Palabras reservadas
+    [(> (pyPR "" code 0) 0) (pySyntaxisHighlighter (popElement code (pyPR "" code 0)) (string-append fileHTML (writeTag "palabra-reservada" (substring code (pyPR "" code 0) '()))))]
+    ; Strings
+    [(> (stringA code 0) 0) (pySyntaxisHighlighter (popElement code (stringA code 0)) (string-append fileHTML (writeTag "string" (substring code (stringA code 0) '()))))]
+    ; Variables
+    [(> (variableA code 0) 0) (pySyntaxisHighlighter (popElement code (variableA code 0)) (string-append fileHTML (writeTag "variable" (substring code (variableA code 0) '()))))]
+    ; Numeros reales
+    [(> (realesA code 0) 0) (pySyntaxisHighlighter (popElement code (realesA code 0)) (string-append fileHTML (writeTag "reales" (substring code (realesA code 0) '()))))]
+    ; Numeros enteros
+    [(> (enteroA code 0) 0) (pySyntaxisHighlighter (popElement code (enteroA code 0)) (string-append fileHTML (writeTag "enteros" (substring code (enteroA code 0) '()))))]
+    ; Delimitadores
+    [(or (equal? (car code) #\{) (equal? (car code) #\}) (equal? (car code) #\[) (equal? (car code) #\]) (equal? (car code) #\() (equal? (car code) #\)) ) (pySyntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores" (string (car code)))))]
+    ; Operadores
+    [(or (equal? (car code) #\=) (equal? (car code) #\+) (equal? (car code) #\*) (equal? (car code) #\/) (equal? (car code) #\^) (equal? (car code) #\-) (equal? (car code) #\;) (equal? (car code) #\:) (equal? (car code) #\<) (equal? (car code) #\>) (equal? (car code) #\#) (equal? (car code) #\&) (equal? (car code) #\|)) (pySyntaxisHighlighter (cdr code) (string-append fileHTML (writeTag "operadores-logicos" (string (car code)))))]
+    [else (pySyntaxisHighlighter (cdr code) (string-append fileHTML (string (car code))) )] ))
+
+
+(define (run programa code fileHTML)
+  (cond
+    [(equal? programa "cpp") (cppSyntaxisHighlighter code fileHTML)]
+    [(equal? programa "py") (pySyntaxisHighlighter code fileHTML)]))
 
 (define prueba
   '(#\i #\n #\t #\space #\3 #\2 #\5 #\3 #\space #\newline #\h #\o #\l #\a #\;))
@@ -357,4 +308,4 @@
 ;; '(#\/ #\/ #\space #\E #\s #\t #\e)
 ;; (commentA prueba 0)
 
-;;(syntaxisHighlighter code headHTML)
+;; (run programa code headHTML)
