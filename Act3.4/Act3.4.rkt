@@ -269,7 +269,7 @@
 
 (define (pySyntaxisHighlighter code fileHTML)
   (cond
-    [(empty? code) (write-file "prueba.html" fileHTML)]
+    [(empty? code) (write-file "index.html" fileHTML)]
     ; Espacios
     [(equal? (car code) #\space) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;"))]
     ; Salto de lineas
@@ -300,12 +300,6 @@
     [(equal? programa "cpp") (cppSyntaxisHighlighter code fileHTML)]
     [(equal? programa "py") (pySyntaxisHighlighter code fileHTML)]))
 
-(define prueba
-  '(#\i #\n #\t #\space #\3 #\2 #\5 #\3 #\space #\newline #\h #\o #\l #\a #\;))
-  ;;'(#\v #\a #\r #\1 #\_ #\space #\h))
-  ;'(#\/ #\/ #\space #\E #\s #\t #\e #\newline #\v #\a #\r #\1))
 
-;; '(#\/ #\/ #\space #\E #\s #\t #\e)
-;; (commentA prueba 0)
 
 ;; (run programa code headHTML)
