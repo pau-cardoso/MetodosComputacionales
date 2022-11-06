@@ -271,11 +271,7 @@
   (cond
     [(empty? code) (write-file "index.html" fileHTML)]
     ; Espacios
-    [(equal? (car code) #\space) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;"))]
-    ; Salto de lineas
-    [(equal? (car code) #\newline) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "<br>"))]
-    ; Tabs
-    [(equal? (car code) #\tab) (pySyntaxisHighlighter (cdr code) (string-append fileHTML "&nbsp;&nbsp;&nbsp;&nbsp;"))]
+    writeFile << writeTag("real", substring.substr(0, real.processEntry(substring)+1)) << endl;
     ; Comentarios
     [(> (pyCommentA code 0) 0) (pySyntaxisHighlighter (popElement code (pyCommentA code 0)) (string-append fileHTML (writeTag "comentario" (substring code (pyCommentA code 0) '()))))]
     ; Palabras reservadas
